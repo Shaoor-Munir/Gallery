@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -21,20 +22,19 @@ public class ImageAdapter extends BaseAdapter {
 
 
     private Context mContext;
-    private Bitmap[]assetsImages;
+    private AssetManager mgr;
+    private String [] imagePaths;
 
-    public ImageAdapter(Context c) {
+
+    ImageAdapter(Context c) throws IOException {
         mContext = c;
+        mgr = mContext.getAssets();
+        imagePaths = mgr.list("");
     }
 
     @Override
     public int getCount() {
-        try {
-            load_images();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return assetsImages.length;
+        return imagePaths.length;
     }
 
     @Override
@@ -54,7 +54,7 @@ public class ImageAdapter extends BaseAdapter {
         if(convertView == null)
         {
             mImageView = new ImageView(mContext);
-            mImageView.setLayoutParams(new GridView.LayoutParams(450, 400));
+            mImageView.setLayoutParams(new GridView.LayoutParams(500, 400));
             mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             mImageView.setPadding(0, 0, 0, 0);
         }
@@ -62,21 +62,16 @@ public class ImageAdapter extends BaseAdapter {
         {
             mImageView = (ImageView) convertView;
         }
-        mImageView.setImageBitmap(assetsImages[position]);
+        try {
+            mImageView.setImageDrawable(Drawable.createFromStream(mgr.open(imagePaths[position]), null));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return mImageView;
 
     }
 
-    private void load_images() throws IOException {
-        AssetManager mgr = mContext.getAssets();
-
-        String[] imagePaths = mgr.list("");
-        assetsImages= new Bitmap[imagePaths.length];
-
-        for(int i=0;i<imagePaths.length;i++)
-        {
-            assetsImages[i] = BitmapFactory.decodeStream(mgr.open(imagePaths[i]));
-        }
-
+    public String return_path(int position){
+        return imagePaths[position];
     }
 }
