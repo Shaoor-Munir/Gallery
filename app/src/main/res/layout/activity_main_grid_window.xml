@@ -11,11 +11,18 @@
     android:paddingTop="0dp"
     tools:context="com.example.shaoo.gallery.MainGridWindow">
 
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimaryDark"
+        android:theme="?attr/actionBarTheme"
+        android:minHeight="?attr/actionBarSize"
+        android:id="@+id/toolbar2" />
+
     <GridView
         android:id="@+id/gridView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
         android:columnWidth="140dp"
         android:padding="5dp"
         android:drawSelectorOnTop="true"
@@ -25,5 +32,8 @@
         android:verticalSpacing="5dp"
         android:focusable="true"
         android:clickable="true"
-        />
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_below="@+id/toolbar2" />
 </RelativeLayout>
