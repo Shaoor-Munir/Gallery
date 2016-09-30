@@ -1,6 +1,8 @@
 package com.example.shaoo.gallery;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
@@ -35,10 +37,19 @@ public class MainGridWindow extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String path = mImageAdapter.return_path(position);
-                
+                load_image(path);
 
             }
         });
+    }
+
+    public void load_image(String path){
+
+        AssetManager mgr = getAssets();
+        Intent mIntent = new Intent(this, Image_detail.class);
+        mIntent.putExtra("path", path);
+
+        startActivity(mIntent);
     }
 }
 
