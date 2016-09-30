@@ -16,6 +16,9 @@ public class MainGridWindow extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_grid_window);
+        GridView grid = (GridView) findViewById(R.id.gridView);
+        ImageAdapter temp = new ImageAdapter(this);
+        grid.setAdapter(temp);
     }
 }
 

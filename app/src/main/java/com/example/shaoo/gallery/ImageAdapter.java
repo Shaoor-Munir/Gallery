@@ -54,7 +54,7 @@ public class ImageAdapter extends BaseAdapter {
         if(convertView == null)
         {
             mImageView = new ImageView(mContext);
-            mImageView.setLayoutParams(new GridView.LayoutParams(200, 150));
+            mImageView.setLayoutParams(new GridView.LayoutParams(450, 400));
             mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             mImageView.setPadding(0, 0, 0, 0);
         }
