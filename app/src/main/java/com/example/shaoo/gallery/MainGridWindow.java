@@ -26,6 +26,7 @@ import java.io.IOException;
 
 public class MainGridWindow extends AppCompatActivity {
 
+    private static final int DELETION_REQUEST_SENT = 1;
     private GridView mGridView;
     private ImageAdapter mImageAdapter;
     @Override
@@ -35,6 +36,7 @@ public class MainGridWindow extends AppCompatActivity {
         mGridView = (GridView) findViewById(R.id.gridView);
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
+
 
 
         try {
@@ -65,8 +67,19 @@ public class MainGridWindow extends AppCompatActivity {
         Intent mIntent = new Intent(this, Image_detail.class);
         mIntent.putExtra("path", path);
 
-        startActivity(mIntent);
+        startActivityForResult(mIntent, DELETION_REQUEST_SENT);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == DELETION_REQUEST_SENT && resultCode == RESULT_OK && data != null) {
+            String path = data.getStringExtra("path");
+            mImageAdapter.remove_path(path);
+            mImageAdapter.notifyDataSetChanged();
+            mGridView.setAdapter(mImageAdapter);
+
+            Toast.makeText(MainGridWindow.this, path+ "has been successfully deleted.", Toast.LENGTH_SHORT).show();
+        }
+    }
 }
 

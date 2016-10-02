@@ -95,4 +95,16 @@ class ImageAdapter extends BaseAdapter {
                 imagePaths.add(j++, files[i]);
         }
     }
+
+    void remove_path(String in_path)
+    {
+        boolean removedpath = false;
+        for (int i =0;i<imagePaths.size() && !removedpath;i++)
+        {
+            if(in_path.compareTo(imagePaths.get(i)) == 0) {
+                imagePaths.remove(i);
+                removedpath = true;
+            }
+        }
+    }
 }
