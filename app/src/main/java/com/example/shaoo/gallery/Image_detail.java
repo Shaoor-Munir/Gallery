@@ -27,6 +27,7 @@ public class Image_detail extends AppCompatActivity {
         }
 
         String path = getIntent().getStringExtra("path");
+        setTitle(path);
         AssetManager mgr = getAssets();
         ImageView image = (ImageView) findViewById(R.id.imageDisplay);
         try {
