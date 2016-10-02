@@ -18,23 +18,26 @@ import java.util.ArrayList;
 
 import static android.R.id.list;
 
-public class ImageAdapter extends BaseAdapter {
+class ImageAdapter extends BaseAdapter {
 
 
     private Context mContext;
     private AssetManager mgr;
-    private String [] imagePaths;
+    private ArrayList<String> imagePaths;
 
 
     ImageAdapter(Context c) throws IOException {
         mContext = c;
+        imagePaths = new ArrayList<String>();
         mgr = mContext.getAssets();
-        imagePaths = mgr.list("");
+        String [] files;
+        files = mgr.list("");
+        check_for_images(files);
     }
 
     @Override
     public int getCount() {
-        return imagePaths.length;
+        return imagePaths.size();
     }
 
     @Override
@@ -63,7 +66,7 @@ public class ImageAdapter extends BaseAdapter {
             mImageView = (ImageView) convertView;
         }
         try {
-            mImageView.setImageDrawable(Drawable.createFromStream(mgr.open(imagePaths[position]), null));
+            mImageView.setImageDrawable(Drawable.createFromStream(mgr.open(imagePaths.get(position)), null));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -71,7 +74,25 @@ public class ImageAdapter extends BaseAdapter {
 
     }
 
-    public String return_path(int position){
-        return imagePaths[position];
+    String return_path(int position){
+        return imagePaths.get(position);
+    }
+
+    void check_for_images(String [] files){
+        String[] okFileExtensions =  new String[] {"jpg", "png", "gif","jpeg"};
+
+        int j = 0;
+
+        for(int i=0; i< files.length;i++) {
+            boolean isImage = false;
+            for (String extension : okFileExtensions) {
+                if (files[i].toLowerCase().endsWith(extension)) {
+                    isImage = true;
+                }
+            }
+
+            if (isImage)
+                imagePaths.add(j++, files[i]);
+        }
     }
 }
