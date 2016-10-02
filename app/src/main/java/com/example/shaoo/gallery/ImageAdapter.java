@@ -5,6 +5,7 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 
 import static android.R.id.list;
 
-class ImageAdapter extends BaseAdapter {
+class ImageAdapter extends BaseAdapter implements java.io.Serializable{
 
 
     private Context mContext;
@@ -52,25 +53,22 @@ class ImageAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ImageView mImageView;
 
         if(convertView == null)
         {
-            mImageView = new ImageView(mContext);
-            mImageView.setLayoutParams(new GridView.LayoutParams(500, 400));
-            mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            mImageView.setPadding(0, 0, 0, 0);
-        }
-        else
-        {
-            mImageView = (ImageView) convertView;
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.image_view, parent, false);
+            //mImageView = new ImageView(mContext);
+
+            //mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            //mImageView.setPadding(0, 0, 0, 0);
         }
         try {
-            mImageView.setImageDrawable(Drawable.createFromStream(mgr.open(imagePaths.get(position)), null));
+            ((ImageView) convertView).setImageDrawable(Drawable.createFromStream(mgr.open(imagePaths.get(position)), null));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return mImageView;
+        return convertView;
 
     }
 
